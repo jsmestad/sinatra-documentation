@@ -23,4 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'bundler'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'shotgun'
+  gem.add_development_dependency 'thin'
 end

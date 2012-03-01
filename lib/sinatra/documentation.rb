@@ -8,6 +8,7 @@ module Sinatra
 
     mime_type :readme, 'text/html'
     set :default_content, :html
+    set :html_triggers_documentation, true
 
     before do
       # Let through sinatra image urls in development
@@ -47,7 +48,9 @@ module Sinatra
     end
 
     get '/*' do
-      pass unless format == :readme
+      pass if format != :readme and (request.preferred_type == 'text/html' and !settings.html_triggers_documentation)
+      pass if self.class.development? && request.path_info =~ %r{/__sinatra__/.*?.png}
+      cache_control :public, :max_age => 300
       render(:markdown, :"#{request.path}")
     end
   end
